@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:web="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	version="2.4">
+
+ <servlet>
+    <servlet-name>appservlet</servlet-name>
+    <servlet-class>com.github.robb1e.AppServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>appservlet</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+<!--
+	<filter>
+		<filter-name>scalatra</filter-name>
+		<filter-class>com.github.robb1e.AppDispatcher</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>scalatra</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+-->	
+
+	<filter>
+		<filter-name>filter</filter-name>
+		<filter-class>com.github.robb1e.AppFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+</web-app>
