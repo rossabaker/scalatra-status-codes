@@ -39,6 +39,16 @@ class AppFilter extends AbstractHttpFilter {
         statusCode = status
       }
 
+      override def setStatus(status: Int, reason: String): Unit = {
+        super.setStatus(status, reason)
+        statusCode = status
+      }
+
+      override def sendError(status: Int): Unit = {
+        super.sendError(status)
+        statusCode = status
+      }
+
       override def sendError(status: Int, message: String): Unit = {
         super.sendError(status, message)
         statusCode = status
