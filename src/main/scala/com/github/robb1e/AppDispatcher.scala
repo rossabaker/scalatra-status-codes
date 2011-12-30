@@ -6,6 +6,11 @@ import javax.servlet.http._
 
 class AppServlet extends ScalatraServlet {
 
+  def status: Int = {
+    val getter = response.getClass.getDeclaredMethod("getStatus")
+    getter.invoke(response).asInstanceOf[Int]
+  }
+
   get("/") {
     <ul>
       <li><a href="exception">Throw exception</a></li>
@@ -26,40 +31,15 @@ class AppServlet extends ScalatraServlet {
     status(500)
   }
 
+  after() {
+    println("status = " + status)
+  }
 }
 
 class AppFilter extends AbstractHttpFilter {
 
   def doHttpFilter(request: HttpServletRequest, resp: HttpServletResponse, chain: FilterChain) {
-    val wrappedResponse = new HttpServletResponseWrapper(resp) {
-      var statusCode: Int = 200
-
-      override def setStatus(status: Int): Unit = {
-        super.setStatus(status)
-        statusCode = status
-      }
-
-      override def setStatus(status: Int, reason: String): Unit = {
-        super.setStatus(status, reason)
-        statusCode = status
-      }
-
-      override def sendError(status: Int): Unit = {
-        super.sendError(status)
-        statusCode = status
-      }
-
-      override def sendError(status: Int, message: String): Unit = {
-        super.sendError(status, message)
-        statusCode = status
-      }
-
-    }
-
-    chain.doFilter(request, wrappedResponse)
-
-    println("**** >>>> Status code is " + wrappedResponse.statusCode + " for " + request.getRequestURI)
-
+    chain.doFilter(request, resp)
   }
 
 }
